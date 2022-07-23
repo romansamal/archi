@@ -3,7 +3,7 @@
 ## How to build
     mkdir build && cd build
     conan install .. --build=missing
-    cmake -DCMAKE_MODULE_PATH="%cd%" ..
+    cmake -DCMAKE_MODULE_PATH="" ..
     cmake --build .
 
 ## Algorithm
