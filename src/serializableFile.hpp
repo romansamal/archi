@@ -11,9 +11,39 @@ public:
 
     std::vector<uint8_t> serialize() override;
 
+    struct Iterator
+    {
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = std::vector<uint8_t>;
+        using pointer = std::vector<uint8_t> *;
+        using reference = std::vector<uint8_t> &;
+public:
+        Iterator(std::string filePath, unsigned blockSize, unsigned position);
+
+        value_type operator*();
+
+        Iterator operator++();
+
+        Iterator operator++(int);
+
+        bool operator==(Iterator b);
+
+        bool operator!=(Iterator b);
+
+        private:
+            std::streampos currentPosition;
+            unsigned const blockSize;
+            std::string const filePath;
+    };
+    
+    Iterator begin();
+
+    Iterator end();
+
 private:
-    size_t getFileSize() const;
-    std::vector<uint8_t> readFileFromPosition(size_t position, size_t length);
+    unsigned getFileSize() const;
+    std::vector<uint8_t> readFileFromPosition(unsigned position, unsigned length);
 
     std::string const filePath;
 };

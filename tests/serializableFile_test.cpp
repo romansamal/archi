@@ -12,7 +12,7 @@ namespace
         constexpr size_t megaByte = kiloByte * 1024;
         constexpr size_t gigaByte = megaByte * 1024;
 
-        constexpr size_t fileSize = 100 * megaByte;
+        constexpr size_t fileSize = 100 * kiloByte;
         constexpr std::string_view fileName = "test_file.txt";
     };
 
@@ -69,12 +69,25 @@ namespace
         std::ofstream fileUT;
     };
 
-    TEST_F(serializableFileTest, testing)
+    TEST_F(serializableFileTest, serializeMethod)
     {
         std::unique_ptr<serializable> fileWithSerialization = std::make_unique<serializableFile>(std::string(constants::fileName.data()));
 
         std::vector<uint8_t> rawBytes = fileWithSerialization->serialize();
 
         EXPECT_TRUE(std::equal(this->contentReference.begin(), this->contentReference.end(), rawBytes.begin()));
+    }
+
+    TEST_F(serializableFileTest, Iterator)
+    {
+        serializableFile file(std::string(constants::fileName.data()));
+        size_t referencePosition = 0;
+
+        for (auto it = file.begin(); it != file.end(); it++)
+        {
+            auto vector = *it;
+            EXPECT_TRUE(std::equal(contentReference.begin() + referencePosition, contentReference.begin() + referencePosition + 256, vector.begin()));
+            referencePosition += 256;
+        }
     }
 };
