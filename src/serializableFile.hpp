@@ -2,6 +2,11 @@
 #include "serializable.hpp"
 #include <string>
 
+enum blockSize
+{
+    DEFAULT_SIZE = 256,
+};
+
 class serializableFile : public serializable
 {
 public:
@@ -19,7 +24,7 @@ public:
         using pointer = std::vector<uint8_t> *;
         using reference = std::vector<uint8_t> &;
 public:
-        Iterator(std::string filePath, unsigned blockSize, unsigned position);
+        Iterator(std::string filePath, std::streampos blockSize, std::streampos position);
 
         value_type operator*();
 
@@ -33,7 +38,7 @@ public:
 
         private:
             std::streampos currentPosition;
-            unsigned const blockSize;
+            std::streampos const blockSize;
             std::string const filePath;
     };
     
@@ -42,8 +47,8 @@ public:
     Iterator end();
 
 private:
-    unsigned getFileSize() const;
-    std::vector<uint8_t> readFileFromPosition(unsigned position, unsigned length);
+    std::streampos getFileSize() const;
+    std::vector<uint8_t> readFileFromPosition(std::streampos position, std::streampos length);
 
     std::string const filePath;
 };

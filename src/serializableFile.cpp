@@ -11,21 +11,21 @@ serializableFile::~serializableFile()
 
 std::vector<uint8_t> serializableFile::serialize()
 {
-    unsigned fileSize = this->getFileSize();
+    std::streampos fileSize = this->getFileSize();
 
     return readFileFromPosition(0, fileSize);
 }
 
-unsigned serializableFile::getFileSize() const
+std::streampos serializableFile::getFileSize() const
 {
     std::ifstream fileStream(filePath, std::ios::ate | std::ios::binary);
-    unsigned fileSize = fileStream.tellg();
+    std::streampos fileSize = fileStream.tellg();
     fileStream.close();
 
     return fileSize;
 }
 
-std::vector<uint8_t> serializableFile::readFileFromPosition(unsigned position, unsigned length)
+std::vector<uint8_t> serializableFile::readFileFromPosition(std::streampos position, std::streampos length)
 {
     std::ifstream workFile(this->filePath, std::ios::in | std::ios::binary);
     workFile.seekg(position);
@@ -75,7 +75,7 @@ bool serializableFile::Iterator::operator!=(serializableFile::Iterator b)
     return (this->currentPosition != b.currentPosition);
 }
 
-serializableFile::Iterator::Iterator(std::string filePath, unsigned blockSize, unsigned position) : filePath(filePath),
+serializableFile::Iterator::Iterator(std::string filePath, std::streampos blockSize, std::streampos position) : filePath(filePath),
                                                                                                     blockSize(blockSize),
                                                                                                     currentPosition(position)
 {
@@ -83,10 +83,10 @@ serializableFile::Iterator::Iterator(std::string filePath, unsigned blockSize, u
 
 serializableFile::Iterator serializableFile::begin()
 {
-    return serializableFile::Iterator::Iterator(this->filePath, 256, 0);
+    return serializableFile::Iterator::Iterator(this->filePath, blockSize::DEFAULT_SIZE, 0);
 }
 
 serializableFile::Iterator serializableFile::end()
 {
-    return serializableFile::Iterator::Iterator(this->filePath, 256, this->getFileSize());
+    return serializableFile::Iterator::Iterator(this->filePath, blockSize::DEFAULT_SIZE, this->getFileSize());
 }
