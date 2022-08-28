@@ -1,10 +1,26 @@
-# Arch
+# Archi
+
+## Requirements
+
+- MSVC
+- CMake
+- Conan
 
 ## How to build
     mkdir build && cd build
     conan install .. --build=missing
-    cmake -DCMAKE_MODULE_PATH=%cd% ..
+    cmake -DCMAKE_MODULE_PATH=%cd% -G "Visual Studio 17 2022" ..
     cmake --build .
+
+## Configuration
+
+### VS Code
+
+To build from VS Code add this lines to settings.json
+
+    "cmake.configureArgs": [
+        "-DCMAKE_MODULE_PATH=${workspaceFolder}/build"
+    ],
 
 ## Algorithm
 

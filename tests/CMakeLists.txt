@@ -9,6 +9,7 @@ include_directories(${SOURCES_UT_DIR})
 
 add_executable(serializableFile_test
 	${SOURCES_UT_DIR}/serializableFile.cpp
+	${SOURCES_UT_DIR}/serializable.cpp
 	${SOURCES_TEST})
 
 target_link_libraries(
