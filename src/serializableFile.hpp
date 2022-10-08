@@ -2,19 +2,22 @@
 #include "serializable.hpp"
 #include <string>
 
-enum blockSize
+namespace serializableFileConst
 {
-    DEFAULT_SIZE = 256,
+    enum blockSize
+    {
+        DEFAULT_SIZE = 256,
+    };
 };
 
 class serializableFile : public serializable
 {
 public:
     serializableFile() = delete;
-    serializableFile(std::string const &fileName);
-    ~serializableFile();
+    explicit serializableFile(std::string const &fileName);
+    ~serializableFile() override;
 
-    std::vector<uint8_t> serialize() override;
+    std::vector<uint8_t> serialize() const override;
 
     struct Iterator
     {
@@ -24,17 +27,22 @@ public:
         using pointer = std::vector<uint8_t> *;
         using reference = std::vector<uint8_t> &;
 public:
-        Iterator(std::string filePath, std::streampos blockSize, std::streampos position);
+        Iterator(
+            std::string const &filePath, 
+            std::streampos blockSize, 
+            std::streampos position);
 
-        value_type operator*();
+        value_type operator*() const;
 
         Iterator operator++();
 
         Iterator operator++(int);
 
-        bool operator==(Iterator b);
+        bool operator==(
+            Iterator const &b) const;
 
-        bool operator!=(Iterator b);
+        bool operator!=(
+            Iterator const &b) const;
 
         private:
             std::streampos currentPosition;
@@ -48,7 +56,9 @@ public:
 
 private:
     std::streampos getFileSize() const;
-    std::vector<uint8_t> readFileFromPosition(std::streampos position, std::streampos length);
+    std::vector<uint8_t> readFileFromPosition(
+        std::streampos position, 
+        std::streampos length) const;
 
     std::string const filePath;
 };

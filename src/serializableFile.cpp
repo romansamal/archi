@@ -1,7 +1,8 @@
 #include "serializableFile.hpp"
 #include <fstream>
 
-serializableFile::serializableFile(std::string const &fileName) : filePath(fileName)
+serializableFile::serializableFile(
+    std::string const &fileName) : filePath(fileName)
 {
 }
 
@@ -9,7 +10,7 @@ serializableFile::~serializableFile()
 {
 }
 
-std::vector<uint8_t> serializableFile::serialize()
+std::vector<uint8_t> serializableFile::serialize() const
 {
     std::streampos fileSize = this->getFileSize();
 
@@ -25,7 +26,9 @@ std::streampos serializableFile::getFileSize() const
     return fileSize;
 }
 
-std::vector<uint8_t> serializableFile::readFileFromPosition(std::streampos position, std::streampos length)
+std::vector<uint8_t> serializableFile::readFileFromPosition(
+    std::streampos position,
+    std::streampos length) const
 {
     std::ifstream workFile(this->filePath, std::ios::in | std::ios::binary);
     workFile.seekg(position);
@@ -38,7 +41,7 @@ std::vector<uint8_t> serializableFile::readFileFromPosition(std::streampos posit
     return fileContent;
 }
 
-serializableFile::Iterator::value_type serializableFile::Iterator::operator*()
+serializableFile::Iterator::value_type serializableFile::Iterator::operator*() const
 {
     serializableFile::Iterator::value_type fileContent;
     fileContent.resize(this->blockSize);
@@ -65,28 +68,39 @@ serializableFile::Iterator serializableFile::Iterator::operator++(int)
     return tmp;
 }
 
-bool serializableFile::Iterator::operator==(serializableFile::Iterator b)
+bool serializableFile::Iterator::operator==(
+    serializableFile::Iterator const &b) const
 {
     return (this->currentPosition == b.currentPosition);
 }
 
-bool serializableFile::Iterator::operator!=(serializableFile::Iterator b)
+bool serializableFile::Iterator::operator!=(
+    serializableFile::Iterator const &b) const
 {
     return (this->currentPosition != b.currentPosition);
 }
 
-serializableFile::Iterator::Iterator(std::string filePath, std::streampos blockSize, std::streampos position) : filePath(filePath),
-                                                                                                    blockSize(blockSize),
-                                                                                                    currentPosition(position)
+serializableFile::Iterator::Iterator(
+    std::string const &filePath,
+    std::streampos blockSize,
+    std::streampos position) : filePath(filePath),
+                               blockSize(blockSize),
+                               currentPosition(position)
 {
 }
 
 serializableFile::Iterator serializableFile::begin()
 {
-    return serializableFile::Iterator(this->filePath, blockSize::DEFAULT_SIZE, 0);
+    return serializableFile::Iterator(
+        this->filePath,
+        serializableFileConst::blockSize::DEFAULT_SIZE,
+        0);
 }
 
 serializableFile::Iterator serializableFile::end()
 {
-    return serializableFile::Iterator(this->filePath, blockSize::DEFAULT_SIZE, this->getFileSize());
+    return serializableFile::Iterator(
+        this->filePath,
+        serializableFileConst::blockSize::DEFAULT_SIZE,
+        this->getFileSize());
 }
