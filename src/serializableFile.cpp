@@ -89,7 +89,7 @@ serializableFile::Iterator::Iterator(
 {
 }
 
-serializableFile::Iterator serializableFile::begin()
+serializableFile::Iterator serializableFile::begin() const
 {
     return serializableFile::Iterator(
         this->filePath,
@@ -97,7 +97,7 @@ serializableFile::Iterator serializableFile::begin()
         0);
 }
 
-serializableFile::Iterator serializableFile::end()
+serializableFile::Iterator serializableFile::end() const
 {
     return serializableFile::Iterator(
         this->filePath,

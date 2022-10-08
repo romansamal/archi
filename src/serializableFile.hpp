@@ -50,9 +50,9 @@ public:
             std::string const filePath;
     };
     
-    Iterator begin();
+    Iterator begin() const;
 
-    Iterator end();
+    Iterator end() const;
 
 private:
     std::streampos getFileSize() const;
