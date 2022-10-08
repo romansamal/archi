@@ -2,14 +2,15 @@
 
 ## Requirements
 
-- MSVC
+- gcc
+- ninja
 - CMake
 - Conan
 
 ## How to build
     mkdir build && cd build
-    conan install .. --build=missing
-    cmake -DCMAKE_MODULE_PATH=%cd% -G "Visual Studio 17 2022" ..
+    conan install .. --build=missing --profile=../profile_release.conan
+    cmake -DCMAKE_MODULE_PATH=%cd:\=/% -G Ninja ..
     cmake --build .
 
 ## Configuration
