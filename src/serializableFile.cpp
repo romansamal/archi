@@ -83,10 +83,10 @@ serializableFile::Iterator::Iterator(std::string filePath, std::streampos blockS
 
 serializableFile::Iterator serializableFile::begin()
 {
-    return serializableFile::Iterator::Iterator(this->filePath, blockSize::DEFAULT_SIZE, 0);
+    return serializableFile::Iterator(this->filePath, blockSize::DEFAULT_SIZE, 0);
 }
 
 serializableFile::Iterator serializableFile::end()
 {
-    return serializableFile::Iterator::Iterator(this->filePath, blockSize::DEFAULT_SIZE, this->getFileSize());
+    return serializableFile::Iterator(this->filePath, blockSize::DEFAULT_SIZE, this->getFileSize());
 }
