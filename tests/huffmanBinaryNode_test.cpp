@@ -50,4 +50,21 @@ namespace
 
         EXPECT_EQ(node12345678.getFrequency(), 75);
     }
+
+    TEST_F(huffmanBinaryNodeTest, checkIterator)
+    {
+        huffmanBinaryNode<int> node1(1, 1);
+        huffmanBinaryNode<int> node2(2, 4);
+        huffmanBinaryNode<int> node12(std::move(node1), std::move(node2));
+
+        huffmanBinaryNode<int>::Iterator iter(node12);
+
+        iter.begin();
+
+        auto node = *iter;
+        EXPECT_EQ(node.getData(), 2);
+        ++iter;
+        node = *iter;
+        EXPECT_EQ(node.getData(), 1);    
+    }
 };

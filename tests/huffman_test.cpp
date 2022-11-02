@@ -59,4 +59,18 @@ namespace
         EXPECT_EQ(charMap.begin()->second, buffer_size);
     }
 
+    
+    TEST_F(huffmanTest, buildTree_check)
+    {
+        huffman::blockFrequencyMap chars;
+
+        chars['a'] = 1;
+        chars['b'] = 2;
+        chars['c'] = 3;
+
+        auto resultTree = huffman::buildTree(chars);
+
+        EXPECT_EQ(resultTree.getFrequency(), 6);
+    }
+
 };

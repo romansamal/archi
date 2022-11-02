@@ -12,4 +12,5 @@ namespace huffman
 
     blockFrequencyMap calculateBlockFrequency(blockBuffer const &buffer);
 
+    hbt buildTree(blockFrequencyMap const &blockFrequencies);
 };
