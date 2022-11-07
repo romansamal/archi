@@ -8,9 +8,11 @@ namespace huffman
     using blockFrequencyMap = std::map<uint8_t, unsigned int>;
     using blockBuffer = std::vector<uint8_t>;
     using hbt = huffmanBinaryNode<uint8_t>;
-    using blockCodes = std::map<uint8_t, boost::dynamic_bitset<uint8_t>>;
+    using blockCodingTable = std::map<uint8_t, boost::dynamic_bitset<uint8_t>>;
 
     blockFrequencyMap calculateBlockFrequency(blockBuffer const &buffer);
 
     hbt buildTree(blockFrequencyMap const &blockFrequencies);
+
+    blockCodingTable getCodingTable(hbt const &tree);
 };

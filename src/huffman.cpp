@@ -54,3 +54,10 @@ huffman::hbt huffman::buildTree(huffman::blockFrequencyMap const &blockFrequenci
 
     return huffmanPriorityQueue.top();
 }
+
+huffman::blockCodingTable huffman::getCodingTable(huffman::hbt const &tree)
+{
+    auto iter = hbt::Iterator(tree);
+
+    return iter.getCodingTable();
+}

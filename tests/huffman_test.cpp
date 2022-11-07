@@ -73,4 +73,17 @@ namespace
         EXPECT_EQ(resultTree.getFrequency(), 6);
     }
 
+    TEST_F(huffmanTest, getCodingTable_check)
+    {
+        huffman::blockFrequencyMap chars;
+
+        chars['a'] = 1;
+        chars['b'] = 2;
+        chars['c'] = 3;
+
+        auto resultTree = huffman::buildTree(chars);
+
+        auto codingTable = huffman::getCodingTable(resultTree);
+    }
+
 };
