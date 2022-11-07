@@ -4,7 +4,21 @@
 #include <sstream>
 #include <execution>
 #include <boost/range/irange.hpp>
+#include <boost/dynamic_bitset.hpp>
 
+typedef union _huffmanHeader_u
+{
+    typedef struct _huffmanHeader_s
+    {
+        uint32_t version;
+        uint32_t codingTableOffset;
+        uint32_t dataOffset;
+        uint32_t crc32;
+    } huffmanHeader_s;
+    huffmanHeader_s header;
+
+    uint8_t raw[sizeof(huffmanHeader_s)];
+} huffmanHeader_u;
 
 huffman::blockFrequencyMap huffman::calculateBlockFrequency(huffman::blockBuffer const &buffer)
 {
@@ -60,4 +74,41 @@ huffman::blockCodingTable huffman::getCodingTable(huffman::hbt const &tree)
     auto iter = hbt::Iterator(tree);
 
     return iter.getCodingTable();
+}
+
+
+huffman::blockDecodingTable huffman::getDecodingTable(huffman::blockCodingTable const &table)
+{
+    huffman::blockDecodingTable decodingTable;
+    for (auto &code : table)
+    {
+        std::string codeString;
+        boost::to_string(code.second, codeString);
+        decodingTable.insert({codeString, code.first});
+    }
+
+    return decodingTable;
+}
+
+huffman::blockBuffer encode(
+    huffman::blockBuffer const &buffer,
+    huffman::blockCodingTable const &codingTable)
+{
+    boost::dynamic_bitset<uint8_t> encodedBits;
+    encodedBits.reserve(buffer.size());
+
+    for (auto &ch : buffer)
+    {
+        auto position = codingTable.find(ch);
+
+        if (position != codingTable.end())
+        {
+            for (int bitNum = 0; bitNum < position->second.size(); bitNum++)
+            {
+                encodedBits.push_back(position->second[bitNum]);
+            }
+        }
+    }
+
+    
 }
