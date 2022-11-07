@@ -76,7 +76,6 @@ huffman::blockCodingTable huffman::getCodingTable(huffman::hbt const &tree)
     return iter.getCodingTable();
 }
 
-
 huffman::blockDecodingTable huffman::getDecodingTable(huffman::blockCodingTable const &table)
 {
     huffman::blockDecodingTable decodingTable;
