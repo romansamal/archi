@@ -86,4 +86,21 @@ namespace
         auto codingTable = huffman::getCodingTable(resultTree);
     }
 
+    TEST_F(huffmanTest, encode_check)
+    {
+        huffman::blockBuffer buffer { 'a', 'b', 'c', 'a', 'b', 'c', 'c', 'c', 'c', 'c', 'a'};
+
+        huffman::blockFrequencyMap chars;
+
+        chars['a'] = 3;
+        chars['b'] = 2;
+        chars['c'] = 6;
+        auto resultTree = huffman::buildTree(chars);
+
+        auto codingTable = huffman::getCodingTable(resultTree);
+        auto res = huffman::encode(buffer, codingTable);
+
+        auto res2 = huffman::decode(res);
+    }
+
 };
