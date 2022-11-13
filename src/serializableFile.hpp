@@ -17,15 +17,19 @@ public:
     explicit serializableFile(std::string const &fileName);
     ~serializableFile() override;
 
-    std::vector<uint8_t> serialize() const override;
+    std::vector<char> serialize() const override;
+
+    std::string getName() override;
+
+    Identificator getID() override;
 
     struct Iterator
     {
         using iterator_category = std::forward_iterator_tag;
         using difference_type = std::ptrdiff_t;
-        using value_type = std::vector<uint8_t>;
-        using pointer = std::vector<uint8_t> *;
-        using reference = std::vector<uint8_t> &;
+        using value_type = std::vector<char>;
+        using pointer = std::vector<char> *;
+        using reference = std::vector<char> &;
 public:
         Iterator(
             std::string const &filePath, 
@@ -56,7 +60,7 @@ public:
 
 private:
     std::streampos getFileSize() const;
-    std::vector<uint8_t> readFileFromPosition(
+    std::vector<char> readFileFromPosition(
         std::streampos position, 
         std::streampos length) const;
 

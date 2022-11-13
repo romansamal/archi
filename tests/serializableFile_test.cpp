@@ -34,7 +34,7 @@ namespace
             std::remove(constants::fileName.data());
         }
 
-        std::vector<uint8_t> contentReference;
+        std::vector<char> contentReference;
 
     private:
         void initRandomSeed() const
@@ -53,7 +53,7 @@ namespace
         {
             std::vector<char> fileContent;
             fileContent.resize(constants::fileSize);
-            std::transform(contentReference.begin(), contentReference.end(), fileContent.begin(), [](uint8_t c)
+            std::transform(contentReference.begin(), contentReference.end(), fileContent.begin(), [](char c)
                            { return static_cast<char>(c); });
 
             return fileContent;
@@ -73,7 +73,7 @@ namespace
     {
         std::unique_ptr<serializable> fileWithSerialization = std::make_unique<serializableFile>(std::string(constants::fileName.data()));
 
-        std::vector<uint8_t> rawBytes = fileWithSerialization->serialize();
+        std::vector<char> rawBytes = fileWithSerialization->serialize();
 
         EXPECT_TRUE(std::equal(this->contentReference.begin(), this->contentReference.end(), rawBytes.begin()));
     }

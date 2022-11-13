@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
 #include <cstdint>
+#include "objectID.hpp"
 
-class serializable
+class serializable : public objectID
 {
 public:
 	virtual ~serializable() = 0;
-	virtual std::vector<uint8_t> serialize() const = 0;
+	virtual std::vector<char> serialize() const = 0;
 };

@@ -10,7 +10,7 @@ serializableFile::~serializableFile()
 {
 }
 
-std::vector<uint8_t> serializableFile::serialize() const
+std::vector<char> serializableFile::serialize() const
 {
     std::streampos fileSize = this->getFileSize();
 
@@ -26,14 +26,14 @@ std::streampos serializableFile::getFileSize() const
     return fileSize;
 }
 
-std::vector<uint8_t> serializableFile::readFileFromPosition(
+std::vector<char> serializableFile::readFileFromPosition(
     std::streampos position,
     std::streampos length) const
 {
     std::ifstream workFile(this->filePath, std::ios::in | std::ios::binary);
     workFile.seekg(position);
 
-    std::vector<uint8_t> fileContent;
+    std::vector<char> fileContent;
     fileContent.resize(length);
     workFile.read(reinterpret_cast<char *>(fileContent.data()), length);
     workFile.close();
@@ -103,4 +103,14 @@ serializableFile::Iterator serializableFile::end() const
         this->filePath,
         serializableFileConst::blockSize::DEFAULT_SIZE,
         this->getFileSize());
+}
+
+Identificator serializableFile::getID()
+{
+    return Identificator();
+}
+
+std::string serializableFile::getName()
+{
+    return this->filePath;
 }

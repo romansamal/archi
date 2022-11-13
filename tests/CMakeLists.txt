@@ -17,6 +17,7 @@ include_directories(${SOURCES_UT_DIR})
 add_executable(serializableFile_test
 	${SOURCES_UT_DIR}/serializableFile.cpp
 	${SOURCES_UT_DIR}/serializable.cpp
+	${SOURCES_UT_DIR}/objectID.cpp
 	${SOURCES_SERIALIZABLE_TEST})
 
 add_executable(huffmanBinaryNode_test
